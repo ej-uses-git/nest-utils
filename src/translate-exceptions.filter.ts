@@ -14,9 +14,14 @@ import { translateStatus } from './translate-status';
  * Exceptions are sent to the client in the form:
  * `{ message: <Hebrew Message>, statusCode: number }`
  *
- * Usage: In your nestjs project's `main.ts`, in `bootstrap`,
- * include the line `app.useGlobalFilters(new TranslateExceptions())`,
- * before the `app.listen()`.
+ * Usage: In your NestJS project's `main.ts` file,
+ * insert the following lines:
+ *
+ * ```const adapterHost = app.get(HttpAdapterHost);
+ * app.useGlobalFilters(new TranslateExceptions(adapterHost));```
+ *
+ * (You'll need to import `TranslateExceptions`,
+ * and import `HttpAdapterHost` from @nestjs/core)
  */
 @Catch()
 export class TranslateExceptions implements ExceptionFilter {
