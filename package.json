@@ -2,8 +2,8 @@
   "name": "@ejshafran/nest-utils",
   "version": "1.0.0",
   "description": "Utilities for NestJS",
-  "main": "lib/index.d.ts",
-  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "tsc",
