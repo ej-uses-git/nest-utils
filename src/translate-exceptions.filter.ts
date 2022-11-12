@@ -4,7 +4,7 @@ import {
   ExceptionFilter,
   HttpException,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { HttpAdapterHost } from '@nestjs/core';
 import { translateStatus } from './translate-status';
 
 /**
@@ -18,16 +18,21 @@ import { translateStatus } from './translate-status';
  * include the line `app.useGlobalFilters(new TranslateExceptions())`,
  * before the `app.listen()`.
  */
-@Catch(HttpException)
+@Catch()
 export class TranslateExceptions implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response = ctx.getResponse<Response>();
-    const status = exception.getStatus();
+  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
-    response.status(status).json({
+  catch(exception: unknown, host: ArgumentsHost) {
+    const { httpAdapter } = this.httpAdapterHost;
+    const ctx = host.switchToHttp();
+    const status =
+      exception instanceof HttpException ? exception.getStatus() : 500;
+
+    const responseBody = {
       statusCode: status,
       message: translateStatus(status),
-    });
+    };
+
+    httpAdapter.reply(ctx.getResponse(), responseBody, status);
   }
 }
