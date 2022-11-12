@@ -5,7 +5,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import translateStatus from './translate-status';
+import { translateStatus } from './translate-status';
 
 /**
  * Translates all thrown HttpExceptions from the server to Hebrew

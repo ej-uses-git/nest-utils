@@ -1,4 +1,4 @@
-import translateStatus from '../translate-status';
+import { translateStatus } from '../translate-status';
 
 test('Status is translated correctly', () => {
   expect(translateStatus(404)).toBe('אינו נמצא');
